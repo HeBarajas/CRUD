@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Hello {{ name }} from the render template! Are you from {{ city }}?</h1>
+        <p>My favorite colors are:</p>
+        <ul>
+            {% for c in colors%}
+            {% if c == 'blue'  %}
+            <li>{{ c.upper() }}</li>
+            {% else %}
+            <li>{{ c }}</li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+        <p>The person's name is {{ person['name'] }} and he is {{ person['age'] }} years old and his best friend is {{ person['best_friend'] }}</p>
+
+{% endblock %}
