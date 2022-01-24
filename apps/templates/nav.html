@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+ <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{ url_for('index') }}">Kekambas Shop</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,16 +9,21 @@
             <li class="nav-item">
             <a class="nav-link active" href="{{ url_for('index') }}">Home</a>
             </li>
+            {% if current_user.is_anonymous %}
             <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('register') }}">Sign Up</a>
-            </li>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('phonebook') }}">Register to Phonebook</a>
+            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">Login</a>
+            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
             </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('phonebook') }}">Register to Phonebook</a>
+            </li>
+            {% endif %}
         </ul>
       </div>
     </div>
