@@ -1,23 +1,39 @@
-<!-- <h1>Hello {{ name }} from the render template! Are you from {{ city }}?</h1>
-<p>My favorite colors are:</p>
-<ul>
-    {% for c in colors%}
-    {% if c == 'blue'  %}
-    <li>{{ c.upper() }}</li>
-    {% else %}
-    <li>{{ c }}</li>
-    {% endif %}
-{% endfor %}
-</ul>
-<p>The person's name is {{ person['name'] }} and he is {{ person['age'] }} years old and his best friend is {{ person['best_friend'] }}</p>
- -->
 
- {% extends 'base.html' %}
+{% extends 'base.html' %}
 
- {% block content %}
- {% if current_user.is_authenticated %}
-  <h1>Welcome back, {{ current_user.username}} </h1>
- {% else %}
-     <h1>Welcome to our shop. Please register to use our app!</h1>
- {% endif %}
- {% endblock %}
+{% block content %}
+
+{% if current_user.is_anonymous %}
+
+<h1>Welcome to our Phonebook app! Please register to use our app or login!!</h1>
+
+{% else %}
+      <h1>PhoneBook</h1>
+      <div class='table'>
+
+          
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th>Name</th>
+                      <th>Phone</th>
+                      <th>Address</th>
+                      <th>Edit</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    {% for person in phonebooks %}
+                    <tr>
+                        <td>{{ person.name }}</td>
+                        <td>{{ person.phone_number }}</td>
+                        <td>{{ person.address }}</td>
+                        <td><a href="{{ url_for('edit_registry', p_id=person.id ) }}" class="btn btn-primary">Edit</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+            
+            {% endblock %}
+        </div>

@@ -36,3 +36,10 @@ class PhoneBook(db.Model, UserMixin):
         super().__init__(**kwargs)
         db.session.add(self)
         db.session.commit()
+    
+    def save(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()

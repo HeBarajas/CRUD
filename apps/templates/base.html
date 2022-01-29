@@ -15,15 +15,17 @@
         
         {% include 'nav.html'%}
 
-          <div class='container'> 
+        <div class='container'> 
+        <hr>
+        {% block content %}{% endblock %}
               
-              {%block content%}
-
-              {% endblock %}
-              
-          </div>
+        </div>
           
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+        {% block scripts %}{% endblock %}
     </body>
 </html>

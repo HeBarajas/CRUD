@@ -1,20 +1,13 @@
 from apps import app
-from flask import render_template, redirect, url_for
-from flask_login import login_user, logout_user, login_required
+from flask import render_template, redirect, url_for, flash
+from flask_login import login_user, logout_user, login_required, current_user
 from apps.forms import RegisterForm, RegisterPhoneNumber, LoginForm
 from apps.models import PhoneBook, User
 
 @app.route('/')
 def index():
-    my_name = 'Hector'
-    my_city = 'The Woodlands'
-    my_colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-    my_person = {
-        'name' :'Ferris Bueller',
-        'age': 18,
-        'best_friend': 'Cameron'
-    }
-    return render_template('index.html', name=my_name, city=my_city, colors=my_colors, person=my_person)
+    phonebooks = PhoneBook.query.all()
+    return render_template('index.html', phonebooks=phonebooks)
 
 
 @app.route('/name')
@@ -86,4 +79,33 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    return redirect(url_for('index'))
+
+@app.route('/edit_registry/<int:p_id>/edit', methods=["GET", "POST"])
+def edit_registry(p_id): 
+    phonebooks = PhoneBook.query.get_or_404(p_id)
+    form = RegisterPhoneNumber()
+    if form.validate_on_submit():
+        # Get data from form
+        name = form.name.data
+        phone_number = form.phone_number.data
+        address = form.address.data
+        # Update the product with the new info
+        phonebooks.name = name
+        phonebooks.phone_number = phone_number
+        phonebooks.address = address
+
+        phonebooks.save()
+
+        # flash message
+        flash(f"{phonebooks.name} has been updated", "primary")
+        return redirect(url_for('index', p_id=phonebooks.id))
+
+    return render_template('edit_registry.html', phonebooks=phonebooks, form=form)
+
+@app.route('/edit_registry/<int:p_id>/delete')
+def delete_phonebooks(p_id):
+    phonebooks = PhoneBook.query.get_or_404(p_id)
+    phonebooks.delete()
+    flash(f'{phonebooks.name} has been deleted', 'danger')
     return redirect(url_for('index'))
